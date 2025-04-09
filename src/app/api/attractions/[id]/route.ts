@@ -17,7 +17,7 @@ export async function GET(
     request: Request,
     { params }: { params: Params }
 ): Promise<NextResponse> {
-    const { id } = params;  // No need to await here, just directly access the params
+    const { id } = await params;
     const promisePool = mysqlPool.promise();
     const [rows, fields]: [Attraction[], any] = await promisePool.query(
         `SELECT * FROM attractions WHERE id = ?`,
