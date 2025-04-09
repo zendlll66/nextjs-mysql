@@ -9,13 +9,10 @@ interface Attraction {
     // Add other fields as per your database schema
 }
 
-interface Params {
-    id: string;
-}
 
 export async function GET(
     request: Request,
-    { params }: { params: Params }
+    { params }: { params: { id: string } }
 ): Promise<NextResponse> {
     const { id } = await params;
     const promisePool = mysqlPool.promise();
