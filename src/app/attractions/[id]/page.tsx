@@ -1,21 +1,14 @@
-"use client";
-import React from 'react';
+import { getAttractionData } from '@/lib/getAttractionData';
 
-export async function getData(id: string) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/attractions/${id}/`);
-  if (!res.ok) {
-    throw new Error('Failed to fetch data');
-  }
-  return res.json();
+interface PageProps {
+  params: Promise<{ id: string }>; // ใช้ Promise เพราะ Next.js คาดหวังให้ `params` เป็น Promise
 }
 
-const Page = async ({ params }: { params: { id: string } }) => {
-  if (!process.env.NEXT_PUBLIC_API_URL) {
-    return null;
-  }
+export default async function Page({ params }: PageProps) {
+  // ตรวจสอบว่า params เป็น Promise แล้ว await
+  const { id } = await params;  // ต้องใช้ await กับ params
 
-  const id = params.id;
-  const data = await getData(id);
+  const data = await getAttractionData(id);
 
   return (
     <div className="container mx-auto p-4 mt-8">
@@ -36,6 +29,5 @@ const Page = async ({ params }: { params: { id: string } }) => {
       )}
     </div>
   );
-};
+}
 
-export default Page;
